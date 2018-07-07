@@ -8,5 +8,6 @@ use LightSail\LightSailProvider;
 
 $lightsail = new LightSailProvider();
 $lightsail->getInstances();
-$lightsail->getDataInstace();
-echo $lightsail->getInstance();
+/*$lightsail->getDataInstace();
+$lightsail->getInstance();*/
+//echo $lightsail->startInstance();

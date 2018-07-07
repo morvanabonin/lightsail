@@ -29,10 +29,15 @@ class LightSailProvider
     /**
      * Get all Instances of user
      * Returns information about all Amazon Lightsail virtual private servers, or instances.
-     *
+     * @return \Aws\Result
      */
     public function getInstances() {
-        return $this->lightSailClient->getInstances();
+        try {
+            return $this->lightSailClient->getInstances();
+        } catch (\Exception $e) {
+            echo "Erro ao acessar a Amazon Lightsail API. Messagem {$e->getMessage()}" . PHP_EOL;
+        }
+
     }
 
     /**
@@ -56,14 +61,22 @@ class LightSailProvider
     public function getInstance() {
         $name = $this->getDataInstace()["name"];
         return $this->lightSailClient->getInstance(['instanceName' => $name]);
+    }
 
+    /**
+     * Returns a name of instance
+     */
+    public function getInstanceName() {
+        return $this->getDataInstace()["name"];
     }
 
     /**
      * Start a stopped Instance
      */
     public function startInstance() {
-
+        $result = $this->lightSailClient->startInstance(['instanceName' =>  $this->getInstanceName()]);
+        var_dump($result);
+        exit;
     }
 
     /**
