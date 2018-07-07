@@ -7,4 +7,6 @@ require 'vendor/autoload.php';
 use LightSail\LightSailProvider;
 
 $lightsail = new LightSailProvider();
-echo $lightsail->getInstances();
+$lightsail->getInstances();
+$lightsail->getDataInstace();
+echo $lightsail->getInstance();

@@ -12,8 +12,8 @@ use Aws\Lightsail\LightsailClient;
 class LightSailProvider
 {
 
-    const KEY = '';
-    const SECRET = '';
+    const KEY = 'AKIAIKACIJXGZJJIDDBA';
+    const SECRET = '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';
     public $credentials;
     public $lightSailClient;
 
@@ -27,11 +27,50 @@ class LightSailProvider
     }
 
     /**
-     * Get Instances of user
+     * Get all Instances of user
+     * Returns information about all Amazon Lightsail virtual private servers, or instances.
+     *
      */
     public function getInstances() {
         return $this->lightSailClient->getInstances();
     }
 
+    /**
+     * Returns informations about all Amazon Lightsail instances.
+     * @return array $ret
+     */
+    public function getDataInstace() {
+        $ret = array();
+        $instances = $this->lightSailClient->getInstances()["instances"];
+        foreach ($instances as $instance) {
+            $ret = $instance;
+        }
+        return $ret;
+    }
+
+    /**
+     * Gets a specific instance
+     * Returns information about a specific Amazon Lightsail instance, which is a virtual private server.
+     *
+     */
+    public function getInstance() {
+        $name = $this->getDataInstace()["name"];
+        return $this->lightSailClient->getInstance(['instanceName' => $name]);
+
+    }
+
+    /**
+     * Start a stopped Instance
+     */
+    public function startInstance() {
+
+    }
+
+    /**
+     * Stop a started Instance
+     */
+    public function stopInstance() {
+
+    }
 
 }
