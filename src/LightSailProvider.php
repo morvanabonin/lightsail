@@ -85,7 +85,53 @@ class LightSailProvider
      * Stop a started Instance
      */
     public function stopInstance() {
-
+        return $this->lightSailClient->stopInstance(['instanceName' =>  $this->getInstanceName()]);
     }
 
+    /**\
+     * Get availables blueprints
+     * @return \Aws\Result
+     */
+    public function getBlueprints()
+    {
+        return $this->lightSailClient->getBlueprints();
+    }
+
+    /**
+     * Get availables bundles
+     * @return \Aws\Result
+     */
+    public function getBundles()
+    {
+        return $this->lightSailClient->getBundles();
+    }
+
+    /**
+     * Return regions with yours availability zones
+     * @return \Aws\Result
+     */
+    public function getRegions()
+    {
+        return $this->lightSailClient->getRegions([
+            'includeAvailabilityZones' => true
+        ]);
+    }
+
+    /**
+     * Create news instances
+     * @param $params
+     * @return \Aws\Result
+     */
+    public function createInstance($params)
+    {
+        return $this->lightSailClient->createInstances([
+            'availabilityZone' => $params['availabilityZone'],
+            'blueprintId' => $params['blueprintId'],
+            'bundleId' => $params['bundleId'],
+            'customImageName' => $params[''],
+            'instanceNames' => $params['instanceNames'],
+            'keyPairName' => $params['keyPairName'],
+            'userData' => $params['userData']
+        ]);
+    }
 }
