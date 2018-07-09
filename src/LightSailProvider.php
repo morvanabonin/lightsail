@@ -5,24 +5,26 @@
 
 namespace LightSail;
 
+
 use Aws\Credentials\Credentials;
 use Aws\Lightsail\LightsailClient;
-
 
 class LightSailProvider
 {
 
-    const KEY = '';
-    const SECRET = '';
     public $credentials;
     public $lightSailClient;
 
     /**
      * LightSail constructor
+     * @param $config
      */
-    public function __construct()
+    public function __construct($config)
     {
-        $this->credentials = new Credentials(self::KEY, self::SECRET);
+        $key = $this->_getKey($config);
+        $secret = $this->_getSecret($config);
+
+        $this->credentials = new Credentials($key, $secret);
         $this->lightSailClient = new LightsailClient([ "region" => 'us-east-2', "version" => "latest", 'credentials' => $this->credentials]);
     }
 
@@ -133,5 +135,13 @@ class LightSailProvider
             'keyPairName' => $params['keyPairName'],
             'userData' => $params['userData']
         ]);
+    }
+
+    private function _getKey($config) {
+        return $config['credentials']['access_key_ID'];
+    }
+
+    private function _getSecret($config) {
+        return $config['credentials']['secret_access_key'];
     }
 }

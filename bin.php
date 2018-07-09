@@ -3,12 +3,13 @@
  * Test call class LightSail
  */
 require 'vendor/autoload.php';
+$config = require 'config/app.config.php';
 
 use LightSail\LightSailProvider;
 
-$lightsail = new LightSailProvider();
+$lightsail = new LightSailProvider($config);
 //print_r($lightsail->getInstances());
-print_r($lightsail->startInstance());
+//print_r($lightsail->startInstance());
 /*$lightsail->getDataInstace();
 $lightsail->getInstance();*/
 //echo $lightsail->startInstance();
