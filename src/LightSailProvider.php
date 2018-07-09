@@ -12,8 +12,8 @@ use Aws\Lightsail\LightsailClient;
 class LightSailProvider
 {
 
-    const KEY = 'AKIAIKACIJXGZJJIDDBA';
-    const SECRET = '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';
+    const KEY = 'AKIAILOXQEV4WOMEVF4A';
+    const SECRET = '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';
     public $credentials;
     public $lightSailClient;
 
@@ -83,7 +83,7 @@ class LightSailProvider
      * Stop a started Instance
      */
     public function stopInstance() {
-
+        return $this->lightSailClient->stopInstance(['instanceName' =>  $this->getInstanceName()]);
     }
 
 }
