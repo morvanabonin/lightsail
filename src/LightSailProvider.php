@@ -12,8 +12,8 @@ use Aws\Lightsail\LightsailClient;
 class LightSailProvider
 {
 
-    const KEY = 'AKIAILOXQEV4WOMEVF4A';
-    const SECRET = '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';
+    const KEY = '';
+    const SECRET = '';
     public $credentials;
     public $lightSailClient;
 
