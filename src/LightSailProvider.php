@@ -25,7 +25,7 @@ class LightSailProvider
         $secret = $this->_getSecret($config);
 
         $this->credentials = new Credentials($key, $secret);
-        $this->lightSailClient = new LightsailClient([ "region" => 'us-east-2', "version" => "latest", 'credentials' => $this->credentials]);
+        $this->lightSailClient = new LightsailClient(["region" => 'us-east-2', "version" => "latest", 'credentials' => $this->credentials]);
     }
 
     /**
@@ -33,20 +33,21 @@ class LightSailProvider
      * Returns information about all Amazon Lightsail virtual private servers, or instances.
      * @return \Aws\Result
      */
-    public function getInstances() {
+    public function getInstances()
+    {
         try {
             return $this->lightSailClient->getInstances();
         } catch (\Exception $e) {
-            echo "Erro ao acessar a Amazon Lightsail API. " . PHP_EOL ."Messagem {$e->getMessage()}" . PHP_EOL;
+            echo "Erro ao acessar a Amazon Lightsail API. " . PHP_EOL . "Messagem {$e->getMessage()}" . PHP_EOL;
         }
-
     }
 
     /**
      * Returns informations about all Amazon Lightsail instances.
      * @return array $ret
      */
-    public function getDataInstace() {
+    public function getDataInstace()
+    {
         $ret = array();
         $instances = $this->lightSailClient->getInstances()["instances"];
         foreach ($instances as $instance) {
@@ -60,7 +61,8 @@ class LightSailProvider
      * Returns information about a specific Amazon Lightsail instance, which is a virtual private server.
      *
      */
-    public function getInstance() {
+    public function getInstance()
+    {
         $name = $this->getDataInstace()["name"];
         return $this->lightSailClient->getInstance(['instanceName' => $name]);
     }
@@ -68,29 +70,76 @@ class LightSailProvider
     /**
      * Returns a name of instance
      */
-    public function getInstanceName() {
+    public function getInstanceName()
+    {
         return $this->getDataInstace()["name"];
     }
 
     /**
      * Start a stopped Instance
      */
-    public function startInstance() {
+    public function startInstance()
+    {
         try {
-            $result = $this->lightSailClient->startInstance(['instanceName' =>  $this->getInstanceName()]);
+            $result = $this->lightSailClient->startInstance(['instanceName' => $this->getInstanceName()]);
         } catch (\Exception $e) {
-            echo "Não foi possivel iniciar a instancia da Amazon Lightsail API." . PHP_EOL ."Messagem {$e->getMessage()}";
+            echo "Não foi possivel iniciar a instancia da Amazon Lightsail API." . PHP_EOL . "Messagem {$e->getMessage()}";
         }
     }
 
     /**
      * Stop a started Instance
      */
-    public function stopInstance() {
-        return $this->lightSailClient->stopInstance(['instanceName' =>  $this->getInstanceName()]);
+    public function stopInstance()
+    {
+        return $this->lightSailClient->stopInstance(['instanceName' => $this->getInstanceName()]);
     }
 
-    /**\
+    /**
+     * Restarts a specific instance. When your Amazon Lightsail instance is finished rebooting,
+     * Lightsail assigns a new public IP address. To use the same IP address after restarting,
+     * create a static IP address and attach it to the instance.
+     *
+     * @param $instance
+     * @return \Aws\Result
+     */
+    public function rebootInstance($instance)
+    {
+        return $this->lightSailClient->rebootInstance(['instanceName' => $instance]);
+    }
+
+    /**
+     * Attaches a static IP address to a specific Amazon Lightsail instance.
+     * @param $params
+     * @return \Aws\Result
+     */
+    public function attachStaticIp($params)
+    {
+        return $this->lightSailClient->attachStaticIp([
+            'instanceName' => $params['instanceName'],
+            'staticIpName' => $params['staticIpName']
+        ]);
+    }
+
+    /**
+     * Returns the data points for the specified Amazon Lightsail instance metric, given an instance name.
+     * @param $params
+     * @return \Aws\Result
+     */
+    public function getInstanceMetrics($params)
+    {
+        return $this->lightSailClient->getInstanceMetricData([
+            'endTime' => $params['endTime'],//<integer || string || DateTime>, // REQUIRED
+            'instanceName' => $params['instanceName'], // REQUIRED
+            'metricName' => $params['metricName'],//'CPUUtilization|NetworkIn|NetworkOut|StatusCheckFailed|StatusCheckFailed_Instance|StatusCheckFailed_System', // REQUIRED
+            'period' => $params['period'], // REQUIRED
+            'startTime' => $params['startTime'],//<integer || string || DateTime>, // REQUIRED
+            'statistics' => [$params['statistics']],//['<string>', ...], // REQUIRED
+            'unit' => $params['unit']//'Seconds|Microseconds|Milliseconds|Bytes|Kilobytes|Megabytes|Gigabytes|Terabytes|Bits|Kilobits|Megabits|Gigabits|Terabits|Percent|Count|Bytes/Second|Kilobytes/Second|Megabytes/Second|Gigabytes/Second|Terabytes/Second|Bits/Second|Kilobits/Second|Megabits/Second|Gigabits/Second|Terabits/Second|Count/Second|None', // REQUIRED
+        ]);
+    }
+
+    /**
      * Get availables blueprints
      * @return \Aws\Result
      */
@@ -137,11 +186,13 @@ class LightSailProvider
         ]);
     }
 
-    private function _getKey($config) {
+    private function _getKey($config)
+    {
         return $config['credentials']['access_key_ID'];
     }
 
-    private function _getSecret($config) {
+    private function _getSecret($config)
+    {
         return $config['credentials']['secret_access_key'];
     }
 }
