@@ -10,4 +10,4 @@ $lightsail = new LightSailProvider();
 $lightsail->getInstances();
 /*$lightsail->getDataInstace();
 $lightsail->getInstance();*/
-//echo $lightsail->startInstance();
+echo $lightsail->startInstance();

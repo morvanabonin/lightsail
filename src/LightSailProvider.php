@@ -12,8 +12,8 @@ use Aws\Lightsail\LightsailClient;
 class LightSailProvider
 {
 
-    const KEY = 'AKIAIKACIJXGZJJIDDBA';
-    const SECRET = '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';
+    const KEY = '';
+    const SECRET = '';
     public $credentials;
     public $lightSailClient;
 
@@ -35,7 +35,7 @@ class LightSailProvider
         try {
             return $this->lightSailClient->getInstances();
         } catch (\Exception $e) {
-            echo "Erro ao acessar a Amazon Lightsail API. Messagem {$e->getMessage()}" . PHP_EOL;
+            echo "Erro ao acessar a Amazon Lightsail API. " . PHP_EOL ."Messagem {$e->getMessage()}" . PHP_EOL;
         }
 
     }
@@ -74,9 +74,11 @@ class LightSailProvider
      * Start a stopped Instance
      */
     public function startInstance() {
-        $result = $this->lightSailClient->startInstance(['instanceName' =>  $this->getInstanceName()]);
-        var_dump($result);
-        exit;
+        try {
+            $result = $this->lightSailClient->startInstance(['instanceName' =>  $this->getInstanceName()]);
+        } catch (\Exception $e) {
+            echo "Não foi possivel iniciar a instancia da Amazon Lightsail API." . PHP_EOL ."Messagem {$e->getMessage()}";
+        }
     }
 
     /**
