@@ -19,13 +19,16 @@ $lightsail->getInstance();*/
 
 //print_r($lightsail->getRegions());
 
-/*$lightsail->createInstance([
+$name = 'vps-test-'. rand();
+
+$lightsail->createInstance([
     'availabilityZone' => 'us-east-2a',
     'blueprintId' => 'ubuntu_16_04_2',
     'bundleId' => 'nano_1_0',
     'customImageName' => null,
-    'instanceNames' => ["deathNote2"],
+    'instanceNames' => [ $name ],
     'customImageName' => null,
-    'userData' => 'apt-get upgrade'
-]);*/
+    'keyPairName' => null,
+    'userData' => ''
+]);
 
