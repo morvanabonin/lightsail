@@ -179,10 +179,34 @@ class LightSailProvider
             'availabilityZone' => $params['availabilityZone'],
             'blueprintId' => $params['blueprintId'],
             'bundleId' => $params['bundleId'],
-            'customImageName' => $params[''],
+            'customImageName' => $params['customImageName'],
             'instanceNames' => $params['instanceNames'],
             'keyPairName' => $params['keyPairName'],
             'userData' => $params['userData']
+        ]);
+    }
+
+    /**
+     * Deletes a specific Amazon Lightsail virtual private server, or instance.
+     * @param $instance
+     * @return \Aws\Result
+     */
+    public function deleteInstance($instance)
+    {
+        return  $this->lightSailClient->deleteInstance([
+            'instanceName' => $instance
+        ]);
+    }
+
+    public function openInstancePublicPorts($params)
+    {
+        return $this->lightSailClient->openInstancePublicPorts([
+           'instanceName' => $params['instanceName'],
+           'portInfo' => [
+               'fromPort' => $params['fromPort'],
+               'protocol' => $params['protocol'],
+               'toPort' => $params['toPort']
+           ]
         ]);
     }
 
