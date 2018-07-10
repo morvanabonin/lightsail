@@ -108,6 +108,14 @@ class LightSailProvider
         return $this->lightSailClient->rebootInstance(['instanceName' => $instance]);
     }
 
+    public function deleteInstances() {
+        try {
+            $result = $this->lightSailClient->deleteInstance(['instanceName' => $this->getInstanceName()]);
+        } catch (\Exception $e) {
+            echo "Não foi possivel iniciar a instancia da Amazon Lightsail API." . PHP_EOL . "Messagem {$e->getMessage()}";
+        }
+    }
+
     /**
      * Attaches a static IP address to a specific Amazon Lightsail instance.
      * @param $params

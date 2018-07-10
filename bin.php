@@ -10,6 +10,7 @@ use LightSail\LightSailProvider;
 $lightsail = new LightSailProvider($config);
 //print_r($lightsail->getInstances());
 //print_r($lightsail->startInstance());
+// $lightsail->deleteInstances();
 /*$lightsail->getDataInstace();
 $lightsail->getInstance();*/
 //print_r($lightsail->stopInstance());
