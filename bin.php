@@ -12,8 +12,18 @@ $lightsail = new LightSailProvider($config);
 //print_r($lightsail->startInstance());
 /*$lightsail->getDataInstace();
 $lightsail->getInstance();*/
-//echo $lightsail->startInstance();
-//print_r($lightsail->getBundles());
+//print_r($lightsail->stopInstance());
+
+$startTime = new DateTime();
+print_r($lightsail->getInstanceMetrics([
+    'endTime' => new DateTime(),
+    'instanceName' => 'deathnote',
+    'metricName' => 'CPUUtilization',
+    'period' => 60,
+    'startTime' => $startTime->modify('-1 day'),
+    'statistics' => "Average",
+    'unit' => 'Percent'
+]));
 
 //print_r($lightsail->getBlueprints());
 
